@@ -11,9 +11,14 @@ class AddTestCase(unittest.TestCase):
     return super().tearDown()
 
   def test_add(self):
-    expected = 199;
-    result = some.add(*self.args);
-    self.assertEqual(expected, result);
+    expected = 199
+    result = some.add(*self.args)
+    self.assertEqual(expected, result)
+
+  def test_minus(self):
+    expect = 1;
+    result = some.minus(*self.args)
+    self.assertEqual(expect, result)
         
 suite = unittest.TestSuite()
 suite.addTest(AddTestCase('test_add'))
