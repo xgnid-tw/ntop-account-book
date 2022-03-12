@@ -11,14 +11,11 @@ class PlurkHelper:
     self.plurk = PlurkAPI(PLURK_USER_KEY, PLURK_USER_SECRET)
     self.plurk.authorize(PLURK_API_TOKEN,PLURK_API_SECRET)
 
-  def call_private_plurk(self,target):
-    self.plurk.call()
-
-  def call(self):
-    result = self.plurk.callAPI('/APP/Timeline/plurkAdd', options={
-      'content' : "test12345",
-      'qualifier' : ':',
-      'limited_to' : "[5574239]"
-    });
-    if result == None :
-      print(self.plurk.error())
+  def call_private_plurk(self,target="5574239", notion_id="GX-Ver-4-e196bc4b09694d9993d9738e1065dec0"):
+    notionUrl = "https://www.notion.so/" + notion_id
+    options={
+      'content' : "[提醒]目前累積金額超過2000且兩個月以上囉，請直接點選 "+ notionUrl + " (notion) 確認",
+      'qualifier' : 'wants',
+      'limited_to' : "["+ target +"]"
+    }
+    self.plurk.callAPI('/APP/Timeline/plurkAdd', options=options)
