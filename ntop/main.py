@@ -1,7 +1,7 @@
 from notion import NotionHelper
 from pprint import pprint
 from plurk import PlurkHelper
-
+import datetime
 
 plurk_to_notion = {
   '7165510': '7aa7c423c2d44521b9a6867ef335fe70', # 奶舞
@@ -21,15 +21,17 @@ plurk_to_notion = {
   'angle840616': 'a157d6d62c4d49c892106b6fd0d4c986' # 茶茶
 }
 
-p = PlurkHelper()
-p.call()
 
-#n = NotionHelper()
-#for plurk, notion_id in plurk_to_notion.items():
-#  result = n.get_notpaid(notion_id)
-#  rows = [] 
-#  for r in result['results']:
-#    rows.append(r['properties']['台幣']['number'])
-#  if sum(rows) > 2000:
-#    print(plurk)
-#    print(sum(rows))
+p = PlurkHelper()
+n = NotionHelper()
+today =  datetime.date.today()
+if today.day != 1 and today.day != 13:
+  exit()
+
+for plurk_id, notion_id in plurk_to_notion.items():
+  result = n.get_notpaid(notion_id)
+  rows = [] 
+  for r in result['results']:
+    rows.append(r['properties']['台幣']['number'])
+  if sum(rows) > 2000:
+    p.call_private_plurk("5574239", notion_id)
