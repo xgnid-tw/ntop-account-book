@@ -11,6 +11,20 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   heroku: circleci/heroku@0.0.10 # Invoke the Heroku orb
 
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  heroku_deploy: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - build
+      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+          requires:
+            - build
+          filters:
+            branches:
+              only: sequential-branch-filter
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -33,10 +47,10 @@ jobs:
       - checkout
       - restore_cache:  # ensure this step occurs *before* installing dependencies
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - python/install-packages:
-          pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
@@ -44,16 +58,3 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
-  heroku_deploy: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
-    jobs:
-      - build
-      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-          requires:
-            - build
-          filters:
-            branches:
-              only: sequential-branch-filter
