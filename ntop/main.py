@@ -25,7 +25,7 @@ plurk_to_notion = {
 p = PlurkHelper()
 n = NotionHelper()
 today =  datetime.date.today()
-if today.day != 1 and today.day != 15:
+if today.day != 1 and today.day != 16:
   exit()
 
 for plurk_id, notion_id in plurk_to_notion.items():
@@ -34,4 +34,4 @@ for plurk_id, notion_id in plurk_to_notion.items():
   for r in result['results']:
     rows.append(r['properties']['台幣']['number'])
   if sum(rows) > 2000:
-    p.call_private_plurk("5574239", notion_id)
+    p.call_private_plurk(plurk_id, notion_id)
