@@ -25,7 +25,7 @@ plurk_to_notion = {
 p = PlurkHelper()
 n = NotionHelper()
 today =  datetime.date.today()
-if today.day != 1 and today.day != 13:
+if today.day != 1 and today.day != 15:
   exit()
 
 for plurk_id, notion_id in plurk_to_notion.items():
