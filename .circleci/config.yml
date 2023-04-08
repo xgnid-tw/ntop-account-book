@@ -1,8 +1,4 @@
 version: 2.1
-
-orbs:
-  heroku: circleci/heroku@0.0.10 # Invoke the Heroku orb
-
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -43,12 +39,27 @@ jobs:
           command: |
             pipenv install
             pipenv lock
+      - run:
+          name: "Create .env"
+          command: |
+            echo "RABBITMQ_HOST=${RABBITMQ_HOST}" >> ./env
+            echo "RABBITMQ_VHOST=${RABBITMQ_VHOST}" >> ./env
+            echo "RABBITMQ_USERNAME=${RABBITMQ_USERNAME}" >> ./env
+            echo "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}" >> ./env
+            echo "RABBITMQ_QUEUE_KEY_NOTION=${RABBITMQ_QUEUE_KEY_NOTION}" >> ./env
+            echo "RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}" >> ./env
+            echo "NOTION_TOKEN=${NOTION_TOKEN}" >> ./env
+            echo "NOTION_ID_LIST=${NOTION_ID_LIST}" >> ./env
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
             - "/usr/local/bin"
-            - "/usr/local/lib/python3.8/dist-packages/"
+            - "/usr/local/lib/python3.10.2/dist-packages/"
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - .env
   deploy:
     working_directory: ~/ntop-account-book
     docker:
@@ -57,6 +68,9 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install rsync
       - checkout
       - add_ssh_keys
+      - attatch_workspace:
+          at: /tmp/workspace
       - run: |
           echo 'ssh.xgnid.me ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINw83wSAmzc8a+6ogibQ1lExzdfFCU83tUKy7uPRzuHU' >> ~/.ssh/known_hosts
-          rsync -va --delete ./ntop $SSH_USER@$SSH_HOST:gx/
+          cp /tmp/workspace/.env ./.env
+          rsync -va --delete ./ $SSH_USER@$SSH_HOST:gx/
