@@ -42,14 +42,14 @@ jobs:
       - run:
           name: "Create .env"
           command: |
-            echo "RABBITMQ_HOST=${RABBITMQ_HOST}" >> ntop/env
-            echo "RABBITMQ_VHOST=${RABBITMQ_VHOST}" >> ntop/env
-            echo "RABBITMQ_USERNAME=${RABBITMQ_USERNAME}" >> ntop/env
-            echo "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}" >> ntop/env
-            echo "RABBITMQ_QUEUE_KEY_NOTION=${RABBITMQ_QUEUE_KEY_NOTION}" >> ntop/env
-            echo "RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}" >> ntop/env
-            echo "NOTION_TOKEN=${NOTION_TOKEN}" >> ntop/env
-            echo "NOTION_ID_LIST=${NOTION_ID_LIST}" >> ntop/env
+            echo "RABBITMQ_HOST=${RABBITMQ_HOST}" >> ntop/.env
+            echo "RABBITMQ_VHOST=${RABBITMQ_VHOST}" >> ntop/.env
+            echo "RABBITMQ_USERNAME=${RABBITMQ_USERNAME}" >> ntop/.env
+            echo "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}" >> ntop/.env
+            echo "RABBITMQ_QUEUE_KEY_NOTION=${RABBITMQ_QUEUE_KEY_NOTION}" >> ntop/.env
+            echo "RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}" >> ntop/.env
+            echo "NOTION_TOKEN=${NOTION_TOKEN}" >> ntop/.env
+            echo "NOTION_ID_LIST=${NOTION_ID_LIST}" >> ntop/.env
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
