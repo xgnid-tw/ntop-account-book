@@ -58,7 +58,7 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.10.2/dist-packages/"
       - persist_to_workspace:
-          root: ntop
+          root: ./
           paths:
             - .env
   deploy:
