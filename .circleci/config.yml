@@ -72,5 +72,5 @@ jobs:
           at: /tmp/workspace
       - run: |
           echo 'ssh.xgnid.me ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINw83wSAmzc8a+6ogibQ1lExzdfFCU83tUKy7uPRzuHU' >> ~/.ssh/known_hosts
-          cp /tmp/workspace/.env ./ntop/.env
+          mv /tmp/workspace/.env ./ntop/.env
           rsync -va --delete ./ $SSH_USER@$SSH_HOST:gx/
