@@ -8,15 +8,15 @@ class RabbitHelper:
 
     def __init__(self) -> None:
         load_dotenv()
-        connection = pika.BlockingConnection(pika.ConnectionParameters(
-                host=getenv('RABBITMQ_HOST'),
-                credentials=pika.PlainCredentials(
-                    getenv('RABBITMQ_USERNAME'),
-                    getenv('RABBITMQ_PASSWORD')
-                ),
-                virtual_host=getenv('RABBITMQ_VHOST')
-            )
+        parameters = pika.ConnectionParameters(
+            host=getenv('RABBITMQ_HOST'),
+            credentials=pika.PlainCredentials(
+                getenv('RABBITMQ_USERNAME'),
+                getenv('RABBITMQ_PASSWORD')
+            ),
+            virtual_host=getenv('RABBITMQ_VHOST')
         )
+        connection = pika.BlockingConnection(parameters)
 
         self.channel = connection.channel()
         self.channel.exchange_declare(exchange=getenv('RABBITMQ_EXCHANGE'),exchange_type='direct')
