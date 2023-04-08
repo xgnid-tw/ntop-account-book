@@ -57,7 +57,7 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.10.2/dist-packages/"
       - persist_to_workspace:
-          root: workspace
+          root: ntop-account-book
           paths:
             - .env
   deploy:
