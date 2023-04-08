@@ -53,8 +53,6 @@ jobs:
       - image: cimg/python:3.10.2
     steps:
       - run: sudo apt-get update && sudo apt-get install rsync
-      - attach_workspace:
-          at: ntop
       - add_ssh_keys
       - run: |
           echo 'ssh.xgnid.me ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINw83wSAmzc8a+6ogibQ1lExzdfFCU83tUKy7uPRzuHU' >> ~/.ssh/known_hosts
