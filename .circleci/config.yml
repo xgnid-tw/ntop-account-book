@@ -50,6 +50,7 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.8/dist-packages/"
   deploy:
+    working_directory: ~/ntop-account-book
     docker:
       - image: cimg/python:3.10.2
     steps:
