@@ -57,5 +57,5 @@ jobs:
           at: ntop
       - add_ssh_keys
       - run: |
-          echo '' >> ~/.ssh/known_hosts
-          rsync -va --delete src/public/ $SSH_USER@$SSH_HOST:gx/ntop/
+          echo 'ssh.xgnid.me ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINw83wSAmzc8a+6ogibQ1lExzdfFCU83tUKy7uPRzuHU' >> ~/.ssh/known_hosts
+          rsync -va --delete ntop/ $SSH_USER@$SSH_HOST:gx/ntop/
