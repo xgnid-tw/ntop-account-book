@@ -39,17 +39,18 @@ jobs:
           command: |
             pipenv install
             pipenv lock
+            ls -al
       - run:
           name: "Create .env"
           command: |
-            echo "RABBITMQ_HOST=${RABBITMQ_HOST}" >> ./env
-            echo "RABBITMQ_VHOST=${RABBITMQ_VHOST}" >> ./env
-            echo "RABBITMQ_USERNAME=${RABBITMQ_USERNAME}" >> ./env
-            echo "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}" >> ./env
-            echo "RABBITMQ_QUEUE_KEY_NOTION=${RABBITMQ_QUEUE_KEY_NOTION}" >> ./env
-            echo "RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}" >> ./env
-            echo "NOTION_TOKEN=${NOTION_TOKEN}" >> ./env
-            echo "NOTION_ID_LIST=${NOTION_ID_LIST}" >> ./env
+            echo "RABBITMQ_HOST=${RABBITMQ_HOST}" >> .env
+            echo "RABBITMQ_VHOST=${RABBITMQ_VHOST}" >> .env
+            echo "RABBITMQ_USERNAME=${RABBITMQ_USERNAME}" >> .env
+            echo "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}" >> .env
+            echo "RABBITMQ_QUEUE_KEY_NOTION=${RABBITMQ_QUEUE_KEY_NOTION}" >> .env
+            echo "RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE}" >> .env
+            echo "NOTION_TOKEN=${NOTION_TOKEN}" >> .env
+            echo "NOTION_ID_LIST=${NOTION_ID_LIST}" >> .env
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
@@ -57,7 +58,7 @@ jobs:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.10.2/dist-packages/"
       - persist_to_workspace:
-          root: workspace
+          root: ./
           paths:
             - .env
   deploy:
