@@ -48,6 +48,10 @@ jobs:
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.8/dist-packages/"
+      - persist_to_workspace:
+          root: ~/ntop-account-book
+          paths:
+            - ntop
   deploy:
     docker:
       - image: cimg/python:3.10.2
@@ -58,4 +62,4 @@ jobs:
       - add_ssh_keys
       - run: |
           echo 'ssh.xgnid.me ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINw83wSAmzc8a+6ogibQ1lExzdfFCU83tUKy7uPRzuHU' >> ~/.ssh/known_hosts
-          rsync -va --delete ntop/ $SSH_USER@$SSH_HOST:gx/ntop/
+          rsync -va --delete . $SSH_USER@$SSH_HOST:gx/ntop/
